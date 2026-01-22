@@ -172,3 +172,9 @@ ggplot(data=exam_data,
   coord_flip() +
   theme_minimal()
 ```
+
+```{}
+```
+
+```{}
+```
