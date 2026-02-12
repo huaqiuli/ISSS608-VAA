@@ -205,6 +205,7 @@ plot_ly(data = exam_data,
         y = ~MATHS, 
         color = ~RACE)
 ```
+
 ```{r}
 p <- ggplot(data=exam_data, 
             aes(x = MATHS,
@@ -237,6 +238,7 @@ subplot(ggplotly(p1),
 ```{r}
 DT::datatable(exam_data, class= "compact")
 ```
+
 ```{r}
 d <- highlight_key(exam_data) 
 p <- ggplot(d, 
@@ -258,6 +260,7 @@ crosstalk::bscols(gg,
 pacman::p_load(readxl, gifski, gapminder,
                plotly, gganimate, tidyverse)
 ```
+
 ```{r}
 col <- c("Country", "Continent")
 globalPop <- read_xls("data/GlobalPopulation.xls",
@@ -293,6 +296,7 @@ ggplot(globalPop, aes(x = Old, y = Young,
   transition_time(Year) +       
   ease_aes('linear')          
 ```
+
 ```{r}
 gg <- ggplot(globalPop, 
        aes(x = Old, 
@@ -310,6 +314,7 @@ gg <- ggplot(globalPop,
 
 ggplotly(gg)
 ```
+
 ```{r}
 bp <- globalPop %>%
   plot_ly(x = ~Old, 
@@ -326,10 +331,3 @@ bp <- globalPop %>%
   layout(showlegend = FALSE)
 bp
 ```
-
-
-
-
-
-
-
