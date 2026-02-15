@@ -173,8 +173,8 @@ ggplot(data=exam_data,
   theme_minimal()
 ```
 
-```{}
+```         
 ```
 
-```{}
+```         
 ```

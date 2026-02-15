@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Li huaqiu">
+
+<title>Take home exercise 01</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Take-home_Ex01_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Take-home_Ex01_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Take-home_Ex01_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Take-home_Ex01_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Take-home_Ex01_files/libs/quarto-html/popper.min.js"></script>
+<script src="Take-home_Ex01_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Take-home_Ex01_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Take-home_Ex01_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Take-home_Ex01_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Take-home_Ex01_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Take-home_Ex01_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Take-home_Ex01_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><strong>Overview</strong></a>
+  <ul>
+  <li><a href="#setting-the-scene" id="toc-setting-the-scene" class="nav-link" data-scroll-target="#setting-the-scene">Setting the scene:</a></li>
+  <li><a href="#our-tasks" id="toc-our-tasks" class="nav-link" data-scroll-target="#our-tasks">Our tasks:</a></li>
+  </ul></li>
+  <li><a href="#get-started" id="toc-get-started" class="nav-link" data-scroll-target="#get-started"><strong>Get started</strong></a>
+  <ul>
+  <li><a href="#load-packages" id="toc-load-packages" class="nav-link" data-scroll-target="#load-packages">Load packages:</a></li>
+  <li><a href="#import-data" id="toc-import-data" class="nav-link" data-scroll-target="#import-data">Import data:</a>
+  <ul class="collapse">
+  <li><a href="#filtering-the-data-fo-selected-variables" id="toc-filtering-the-data-fo-selected-variables" class="nav-link" data-scroll-target="#filtering-the-data-fo-selected-variables">Filtering the data fo selected variables:</a></li>
+  <li><a href="#changing-column-names" id="toc-changing-column-names" class="nav-link" data-scroll-target="#changing-column-names">Changing column names:</a></li>
+  <li><a href="#check-and-handle-missing-value" id="toc-check-and-handle-missing-value" class="nav-link" data-scroll-target="#check-and-handle-missing-value">Check and handle missing value:</a></li>
+  <li><a href="#check-data-type-of-each-variable" id="toc-check-data-type-of-each-variable" class="nav-link" data-scroll-target="#check-data-type-of-each-variable">Check data type of each variable:</a></li>
+  <li><a href="#check-and-remove-outliers" id="toc-check-and-remove-outliers" class="nav-link" data-scroll-target="#check-and-remove-outliers">Check and remove outliers:</a></li>
+  </ul></li>
+  <li><a href="#eda-1-gender-total_income-pyramid" id="toc-eda-1-gender-total_income-pyramid" class="nav-link" data-scroll-target="#eda-1-gender-total_income-pyramid">EDA 1 Gender-Total_income Pyramid:</a></li>
+  <li><a href="#eda-2distribution-of-total-income-across-provinces" id="toc-eda-2distribution-of-total-income-across-provinces" class="nav-link" data-scroll-target="#eda-2distribution-of-total-income-across-provinces">EDA 2:Distribution of Total Income Across Provinces</a></li>
+  <li><a href="#eda-3comparison-of-total-income-distribution-by-race" id="toc-eda-3comparison-of-total-income-distribution-by-race" class="nav-link" data-scroll-target="#eda-3comparison-of-total-income-distribution-by-race">EDA 3:Comparison of Total Income Distribution by Race</a></li>
+  <li><a href="#eda-4income-and-saving-patterns-distribution-and-relationship-analysis" id="toc-eda-4income-and-saving-patterns-distribution-and-relationship-analysis" class="nav-link" data-scroll-target="#eda-4income-and-saving-patterns-distribution-and-relationship-analysis">EDA 4:Income and Saving Patterns: Distribution and Relationship Analysis</a></li>
+  <li><a href="#eda-5pareto-analysis-of-income-quintile-distribution" id="toc-eda-5pareto-analysis-of-income-quintile-distribution" class="nav-link" data-scroll-target="#eda-5pareto-analysis-of-income-quintile-distribution">EDA 5:Pareto Analysis of Income Quintile Distribution</a></li>
+  </ul></li>
+  <li><a href="#summary-and-conclusion" id="toc-summary-and-conclusion" class="nav-link" data-scroll-target="#summary-and-conclusion"><strong>Summary and Conclusion</strong></a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><strong>Reference</strong></a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Take home exercise 01</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Li huaqiu </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="topics-investigating-income-of-informal-labourers-from-vietnam-northern-mountainous-region-rural-area" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="topics-investigating-income-of-informal-labourers-from-vietnam-northern-mountainous-region-rural-area"><strong>Topics: Investigating Income of informal labourers from Vietnam northern mountainous region rural area</strong></h2>
+</section>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview"><strong>Overview</strong></h2>
+<section id="setting-the-scene" class="level3">
+<h3 class="anchored" data-anchor-id="setting-the-scene">Setting the scene:</h3>
+<p>A survey captures the income levels of informal rural workers along with a range of socioeconomic and demographic characteristics that may influence their earnings. Data were collected across five northern Vietnamese provinces using a structured questionnaire, and after screening, 725 valid responses were retained for analysis. The dataset includes nominal, ordinal, and scale variables that reflect labourer attributes such as education, vocational training.</p>
+</section>
+<section id="our-tasks" class="level3">
+<h3 class="anchored" data-anchor-id="our-tasks">Our tasks:</h3>
+<p>In this exercise, Exploratory Data Analysis (EDA) methods and ggplot functions are used to explore:</p>
+<ol type="1">
+<li><p>The income distribution across different genders in the region</p></li>
+<li><p>A comparison of income levels among different provinces</p></li>
+<li><p>The income distribution across different race groups</p></li>
+<li><p>The relationship between income and savings</p></li>
+<li><p>Differences among different income groups</p></li>
+</ol>
+</section>
+</section>
+<section id="get-started" class="level2">
+<h2 class="anchored" data-anchor-id="get-started"><strong>Get started</strong></h2>
+<section id="load-packages" class="level3">
+<h3 class="anchored" data-anchor-id="load-packages">Load packages:</h3>
+<p>We load the following R packages using the <code>pacman::p_load()</code> function:</p>
+<ul>
+<li><p><strong>tidyverse</strong>: Core collection of R packages designed for data science</p></li>
+<li><p><strong>ggrepel</strong>: to provides geoms for <strong>ggplot2</strong> to repel overlapping text labels</p></li>
+<li><p><strong>ggthemes</strong>: to use additional themes for <strong>ggplot2</strong></p></li>
+<li><p><strong>patchwork</strong>: to prepare composite figure created using <strong>ggplot2</strong></p></li>
+<li><p><strong>ggridges</strong>: to plot ridgeline plots</p></li>
+<li><p><strong>scales</strong>: provides the internal scaling infrastructure used by <strong>ggplot2</strong></p></li>
+<li><p><strong>ggdist</strong>: a ggplot2 extension spacially desgin for visualising distribution and uncertainty</p></li>
+<li><p><strong>colorspace</strong>: an R package provides a broad toolbox for selecting individual colors or color palettes, manipulating these colors, and employing them in various kinds of visualisations.</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse,ggdist,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               ggrepel, ggthemes,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               ggridges,patchwork,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               scales,colorspace)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="import-data" class="level3">
+<h3 class="anchored" data-anchor-id="import-data">Import data:</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/Upload for elsiver.xlsx"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 725 × 30
+    CPRO CGEN   CRAC  CJOB  CQUI  TEIN  TAIN  TSII  TOIN  FEDU  FVTP  FCRA  FTAP
+   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1     1 1         2     1     3    37    25     7     5     1     1     1     1
+ 2     1 1         2     1     5    25    22     0     3     0     1     2     1
+ 3     1 2         2     3     3    33    25     0     8     1     1     1     2
+ 4     1 1         2     1     3    35    30     5     0     1     1     1    NA
+ 5     1 2         2     1     3    36    28     0     8     0     1     1     2
+ 6     1 2         2    NA     4    21    17     0     4     0     1     1     2
+ 7     1 1         2     3     1    35    25     0    10     3     2     1     2
+ 8     1 1         2     1     3    36    28     0     8     0     1     1     2
+ 9     1 1         2     3     3    38    26    12     0     2     2     1     2
+10     1 1         2     1     3    30    22     2     6     0     1     1     2
+# ℹ 715 more rows
+# ℹ 17 more variables: LHO1 &lt;dbl&gt;, LHO2 &lt;dbl&gt;, LHO3 &lt;dbl&gt;, LHO4 &lt;dbl&gt;,
+#   LCRE &lt;dbl&gt;, LSAV &lt;dbl&gt;, LWDA &lt;dbl&gt;, PPO1 &lt;dbl&gt;, PPO2 &lt;dbl&gt;, PPO3 &lt;dbl&gt;,
+#   PPO4 &lt;dbl&gt;, PPO5 &lt;dbl&gt;, ARO1 &lt;dbl&gt;, ARO2 &lt;dbl&gt;, ARO3 &lt;dbl&gt;, ARO4 &lt;chr&gt;,
+#   ARO5 &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<section id="filtering-the-data-fo-selected-variables" class="level4">
+<h4 class="anchored" data-anchor-id="filtering-the-data-fo-selected-variables">Filtering the data fo selected variables:</h4>
+<p>we want to reduce the size of the dataset to focus on the variables that would be suitable for this exercise.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> data1 <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CPRO, CGEN, CRAC, CQUI,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>         TEIN, TAIN, TSII, TOIN,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         FEDU, LSAV, PPO1, PPO2)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>data1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 725 × 12
+    CPRO CGEN   CRAC  CQUI  TEIN  TAIN  TSII  TOIN  FEDU  LSAV  PPO1  PPO2
+   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1     1 1         2     3    37    25     7     5     1     5     5     2
+ 2     1 1         2     5    25    22     0     3     0    NA     2     5
+ 3     1 2         2     3    33    25     0     8     1    30     5     5
+ 4     1 1         2     3    35    30     5     0     1    NA    NA    NA
+ 5     1 2         2     3    36    28     0     8     0    NA     5     5
+ 6     1 2         2     4    21    17     0     4     0     2     2     4
+ 7     1 1         2     1    35    25     0    10     3    70     5     2
+ 8     1 1         2     3    36    28     0     8     0    NA     5     2
+ 9     1 1         2     3    38    26    12     0     2    25     4     3
+10     1 1         2     3    30    22     2     6     0    10     5     1
+# ℹ 715 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="changing-column-names" class="level4">
+<h4 class="anchored" data-anchor-id="changing-column-names">Changing column names:</h4>
+<p>The original dataset uses coded values to represent variables, which limits interpretability during analysis. Therefore, the codes were transformed into their corresponding descriptive variable labels to facilitate clearer analysis and interpretation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"CPRO"</span>] <span class="ot">&lt;-</span> <span class="st">"Provinces"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"CGEN"</span>] <span class="ot">&lt;-</span> <span class="st">"Gender"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"CRAC"</span>] <span class="ot">&lt;-</span> <span class="st">"Race"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"CQUI"</span>] <span class="ot">&lt;-</span> <span class="st">"Income quintile group"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"TEIN"</span>] <span class="ot">&lt;-</span> <span class="st">"Total income"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"TAIN"</span>] <span class="ot">&lt;-</span> <span class="st">"Agricultural income"</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"TSII"</span>] <span class="ot">&lt;-</span> <span class="st">"Service and industrial income"</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"TOIN"</span>] <span class="ot">&lt;-</span> <span class="st">"Others"</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"FEDU"</span>] <span class="ot">&lt;-</span> <span class="st">"Education"</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"LSAV"</span>] <span class="ot">&lt;-</span> <span class="st">"Saving"</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"PPO1"</span>] <span class="ot">&lt;-</span> <span class="st">"Training Qualification"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data1)[<span class="fu">colnames</span>(data1) <span class="sc">==</span> <span class="st">"PPO2"</span>] <span class="ot">&lt;-</span> <span class="st">"Supporting Chains for agricultural activities"</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>data1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 725 × 12
+   Provinces Gender  Race `Income quintile group` `Total income`
+       &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;                   &lt;dbl&gt;          &lt;dbl&gt;
+ 1         1 1          2                       3             37
+ 2         1 1          2                       5             25
+ 3         1 2          2                       3             33
+ 4         1 1          2                       3             35
+ 5         1 2          2                       3             36
+ 6         1 2          2                       4             21
+ 7         1 1          2                       1             35
+ 8         1 1          2                       3             36
+ 9         1 1          2                       3             38
+10         1 1          2                       3             30
+# ℹ 715 more rows
+# ℹ 7 more variables: `Agricultural income` &lt;dbl&gt;,
+#   `Service and industrial income` &lt;dbl&gt;, Others &lt;dbl&gt;, Education &lt;dbl&gt;,
+#   Saving &lt;dbl&gt;, `Training Qualification` &lt;dbl&gt;,
+#   `Supporting Chains for agricultural activities` &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="check-and-handle-missing-value" class="level4">
+<h4 class="anchored" data-anchor-id="check-and-handle-missing-value">Check and handle missing value:</h4>
+<p>Since income is the primary variable of interest in this study, observations with missing values in the income column were treated as invalid and excluded from the analysis. Upon inspection, only one record contained a missing value and was subsequently removed.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> data1 <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="st">`</span><span class="at">Total income</span><span class="st">`</span>))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 724 × 12
+   Provinces Gender  Race `Income quintile group` `Total income`
+       &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;                   &lt;dbl&gt;          &lt;dbl&gt;
+ 1         1 1          2                       3             37
+ 2         1 1          2                       5             25
+ 3         1 2          2                       3             33
+ 4         1 1          2                       3             35
+ 5         1 2          2                       3             36
+ 6         1 2          2                       4             21
+ 7         1 1          2                       1             35
+ 8         1 1          2                       3             36
+ 9         1 1          2                       3             38
+10         1 1          2                       3             30
+# ℹ 714 more rows
+# ℹ 7 more variables: `Agricultural income` &lt;dbl&gt;,
+#   `Service and industrial income` &lt;dbl&gt;, Others &lt;dbl&gt;, Education &lt;dbl&gt;,
+#   Saving &lt;dbl&gt;, `Training Qualification` &lt;dbl&gt;,
+#   `Supporting Chains for agricultural activities` &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="check-data-type-of-each-variable" class="level4">
+<h4 class="anchored" data-anchor-id="check-data-type-of-each-variable">Check data type of each variable:</h4>
+<p>Upon examination, the variables Provinces, Race, Income quintile group, Education, Training Qualification, and Supporting Chains for agricultural activities were identified as categorical variables that should be stored as text. However, they were originally recorded as numeric values. To avoid analytical errors arising from incorrect data types, these variables were converted to the appropriate data type prior to further analysis.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [724 × 12] (S3: tbl_df/tbl/data.frame)
+ $ Provinces                                    : num [1:724] 1 1 1 1 1 1 1 1 1 1 ...
+ $ Gender                                       : chr [1:724] "1" "1" "2" "1" ...
+ $ Race                                         : num [1:724] 2 2 2 2 2 2 2 2 2 2 ...
+ $ Income quintile group                        : num [1:724] 3 5 3 3 3 4 1 3 3 3 ...
+ $ Total income                                 : num [1:724] 37 25 33 35 36 21 35 36 38 30 ...
+ $ Agricultural income                          : num [1:724] 25 22 25 30 28 17 25 28 26 22 ...
+ $ Service and industrial income                : num [1:724] 7 0 0 5 0 0 0 0 12 2 ...
+ $ Others                                       : num [1:724] 5 3 8 0 8 4 10 8 0 6 ...
+ $ Education                                    : num [1:724] 1 0 1 1 0 0 3 0 2 0 ...
+ $ Saving                                       : num [1:724] 5 NA 30 NA NA 2 70 NA 25 10 ...
+ $ Training Qualification                       : num [1:724] 5 2 5 NA 5 2 5 5 4 5 ...
+ $ Supporting Chains for agricultural activities: num [1:724] 2 5 5 NA 5 4 2 2 3 1 ...</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data1<span class="sc">$</span>Provinces <span class="ot">&lt;-</span> <span class="fu">as.character</span>(data1<span class="sc">$</span>Provinces)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>data1<span class="sc">$</span>Race <span class="ot">&lt;-</span> <span class="fu">as.character</span>(data1<span class="sc">$</span>Race)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>data1<span class="sc">$</span><span class="st">`</span><span class="at">Income quintile group</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">as.character</span>(data1<span class="sc">$</span><span class="st">`</span><span class="at">Income quintile group</span><span class="st">`</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>data1<span class="sc">$</span>Education <span class="ot">&lt;-</span> <span class="fu">as.character</span>(data1<span class="sc">$</span>Education)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>data1<span class="sc">$</span><span class="st">`</span><span class="at">Training Qualification</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">as.character</span>(data1<span class="sc">$</span><span class="st">`</span><span class="at">Training Qualification</span><span class="st">`</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>data1<span class="sc">$</span><span class="st">`</span><span class="at">Supporting Chains for agricultural activities</span><span class="st">`</span> <span class="ot">&lt;-</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>(data1<span class="sc">$</span><span class="st">`</span><span class="at">Supporting Chains for agricultural activities</span><span class="st">`</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [724 × 12] (S3: tbl_df/tbl/data.frame)
+ $ Provinces                                    : chr [1:724] "1" "1" "1" "1" ...
+ $ Gender                                       : chr [1:724] "1" "1" "2" "1" ...
+ $ Race                                         : chr [1:724] "2" "2" "2" "2" ...
+ $ Income quintile group                        : chr [1:724] "3" "5" "3" "3" ...
+ $ Total income                                 : num [1:724] 37 25 33 35 36 21 35 36 38 30 ...
+ $ Agricultural income                          : num [1:724] 25 22 25 30 28 17 25 28 26 22 ...
+ $ Service and industrial income                : num [1:724] 7 0 0 5 0 0 0 0 12 2 ...
+ $ Others                                       : num [1:724] 5 3 8 0 8 4 10 8 0 6 ...
+ $ Education                                    : chr [1:724] "1" "0" "1" "1" ...
+ $ Saving                                       : num [1:724] 5 NA 30 NA NA 2 70 NA 25 10 ...
+ $ Training Qualification                       : chr [1:724] "5" "2" "5" NA ...
+ $ Supporting Chains for agricultural activities: chr [1:724] "2" "5" "5" NA ...</code></pre>
+</div>
+</div>
+</section>
+<section id="check-and-remove-outliers" class="level4">
+<h4 class="anchored" data-anchor-id="check-and-remove-outliers">Check and remove outliers:</h4>
+<p>Observations with missing values in the Saving variable were excluded, and the cleaned dataset was stored as data2 for further analysis of the correlation between total income and saving. After addressing missing values, the distribution of the data was examined, and influential outliers that could potentially distort the analytical results were removed prior to conducting the later analysis.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> data1 <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Saving))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>data2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 205 × 12
+   Provinces Gender Race  `Income quintile group` `Total income`
+   &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;                            &lt;dbl&gt;
+ 1 1         1      2     3                                   37
+ 2 1         2      2     3                                   33
+ 3 1         2      2     4                                   21
+ 4 1         1      2     1                                   35
+ 5 1         1      2     3                                   38
+ 6 1         1      2     3                                   30
+ 7 1         1      2     3                                   58
+ 8 1         2      2     3                                   11
+ 9 1         2      2     1                                   95
+10 1         1      1     2                                   33
+# ℹ 195 more rows
+# ℹ 7 more variables: `Agricultural income` &lt;dbl&gt;,
+#   `Service and industrial income` &lt;dbl&gt;, Others &lt;dbl&gt;, Education &lt;chr&gt;,
+#   Saving &lt;dbl&gt;, `Training Qualification` &lt;chr&gt;,
+#   `Supporting Chains for agricultural activities` &lt;chr&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data2, <span class="fu">aes</span>(<span class="at">y =</span> Saving)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"skyblue"</span>) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Boxplot of Saving"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Saving Amount"</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data1, <span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Total income</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"skyblue"</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Total Income"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total Income Amount"</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> data1[data1<span class="sc">$</span><span class="st">`</span><span class="at">Total income</span><span class="st">`</span> <span class="sc">!=</span> <span class="dv">560</span> <span class="sc">&amp;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>               data1<span class="sc">$</span>Saving <span class="sc">!=</span> <span class="dv">5000</span>, ]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> data2[data2<span class="sc">$</span><span class="st">`</span><span class="at">Total income</span><span class="st">`</span> <span class="sc">!=</span> <span class="dv">560</span> <span class="sc">&amp;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>               data2<span class="sc">$</span>Saving <span class="sc">!=</span> <span class="dv">5000</span>, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="eda-1-gender-total_income-pyramid" class="level3">
+<h3 class="anchored" data-anchor-id="eda-1-gender-total_income-pyramid">EDA 1 Gender-Total_income Pyramid:</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pyr <span class="ot">&lt;-</span> data1 <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gender), <span class="sc">!</span><span class="fu">is.na</span>(<span class="st">`</span><span class="at">Total income</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">income_group =</span> <span class="fu">cut</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Total income</span><span class="st">`</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="dv">250</span>, <span class="dv">300</span>, <span class="cn">Inf</span>),   </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-50"</span>,<span class="st">"50-100"</span>,<span class="st">"100-150"</span>,<span class="st">"150-200"</span>,<span class="st">"200-250"</span>,<span class="st">"250-300"</span>,<span class="st">"300+"</span>),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">include.lowest =</span> <span class="cn">TRUE</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(income_group, Gender) <span class="sc">%&gt;%</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">income_group =</span> <span class="fu">factor</span>(income_group, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">levels</span>(income_group))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>one_df   <span class="ot">&lt;-</span> pyr <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"1"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>two_df <span class="ot">&lt;-</span> pyr <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"2"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>p_one <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(one_df, <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> income_group)) <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reverse</span>() <span class="sc">+</span>                         <span class="co"># mirror to the left</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Gender_1"</span>) <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),            <span class="co"># hide y labels on left panel</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>p_two <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(two_df, <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> income_group)) <span class="sc">+</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Gender_2"</span>) <span class="sc">+</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(),             <span class="co"># keep y labels in middle/right</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine side-by-side with a main title</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>(p_one <span class="sc">|</span> p_two) <span class="sc">+</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">"Sex–Income Pyramid"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The original dataset does not explicitly define the categories Gender_1 and Gender_2. Nevertheless, based on the observed graphical patterns and the socioeconomic context of the survey—conducted in rural areas of the northern mountainous region of Vietnam—it is reasonable to infer that Gender_1 likely corresponds to males and Gender_2 to females. A substantial proportion of respondents fall within the 0–50 income range, comprising more than half of the total sample. Furthermore, across all income groups, the male population appears to be approximately three times or more than the female population.</p>
+</section>
+<section id="eda-2distribution-of-total-income-across-provinces" class="level3">
+<h3 class="anchored" data-anchor-id="eda-2distribution-of-total-income-across-provinces">EDA 2:Distribution of Total Income Across Provinces</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data1,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Total income</span><span class="st">`</span>, </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> Provinces, </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">fill =</span> <span class="fl">0.5</span> <span class="sc">-</span> <span class="fu">abs</span>(<span class="fl">0.5</span><span class="sc">-</span><span class="fu">stat</span>(ecdf)))) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_density_ridges</span>(<span class="at">geom =</span> <span class="st">"density_ridges_gradient"</span>, </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">calc_ecdf =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Tail probability"</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_ridges</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `stat(ecdf)` was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(ecdf)` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 9.21</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 519 rows containing non-finite outside the scale range
+(`stat_density_ridges()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This ridgeline density plot illustrates the distribution of total income across different provinces. Across all provinces, income is heavily concentrated in the lower income range (approximately 0–80), indicating that most individuals earn relatively low incomes.The distributions are positively skewed, with a long right tail extending toward higher income levels. This suggests that a small number of individuals earn substantially higher incomes. Although slight variations exist, the general income distribution pattern appears relatively similar across provinces, implying limited regional disparity in income structure.</p>
+</section>
+<section id="eda-3comparison-of-total-income-distribution-by-race" class="level3">
+<h3 class="anchored" data-anchor-id="eda-3comparison-of-total-income-distribution-by-race">EDA 3:Comparison of Total Income Distribution by Race</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data1, </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Race, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="st">`</span><span class="at">Total income</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">adjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">justification =</span> <span class="sc">-</span><span class="fl">0.2</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">.width =</span> <span class="dv">0</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">point_colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> .<span class="dv">20</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_dots</span>(<span class="at">side =</span> <span class="st">"left"</span>, </span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">justification =</span> <span class="fl">1.2</span>, </span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">binwidth =</span> .<span class="dv">5</span>,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">dotsize =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 519 rows containing missing values or values outside the scale range
+(`stat_slabinterval()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 519 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 519 rows containing missing values or values outside the scale range
+(`stat_slabinterval()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This plot combines density ridgelines with boxplots to compare the distribution of total income across racial groups. For both racial groups, income is heavily concentrated in the lower income range (roughly below 60–80), indicating that most individuals earn relatively modest incomes.The income distributions are positively skewed, with long right tails. This suggests the presence of a small number of high-income individuals in both groups.Overall, the income distribution patterns between the two racial groups appear broadly similar, with only minor variations in spread and upper-tail dispersion.</p>
+</section>
+<section id="eda-4income-and-saving-patterns-distribution-and-relationship-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="eda-4income-and-saving-patterns-distribution-and-relationship-analysis">EDA 4:Income and Saving Patterns: Distribution and Relationship Analysis</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>data2, </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> Saving)) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">boundary =</span> <span class="dv">500</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"grey25"</span>, </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"grey90"</span>) <span class="sc">+</span> </span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">500</span>)) <span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Distribution of Saving"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>data2, </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Total income</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">boundary =</span> <span class="dv">300</span>,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"grey25"</span>, </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"grey90"</span>) <span class="sc">+</span> </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>)) <span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Distribution of total income"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>data2, </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> Saving, </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y=</span><span class="st">`</span><span class="at">Total income</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm, </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span>  </span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">500</span>),</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>)) <span class="sc">+</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Saving versus Total income"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>((p1 <span class="sc">/</span> p2) <span class="sc">|</span> p3) <span class="sc">+</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">'I'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This figure presents three panels examining the distribution of saving, the distribution of total income, and the relationship between saving and total income. Both saving and total income exhibit strongly right-skewed distributions, suggesting that the majority of individuals fall within the lower income and savings ranges, while only a small proportion earn or save substantially higher amounts. The scatter plot with regression line shows a positive relationship between saving and total income.However, the points are widely dispersed, suggesting variability and that income does not fully determine saving behavior.</p>
+</section>
+<section id="eda-5pareto-analysis-of-income-quintile-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="eda-5pareto-analysis-of-income-quintile-distribution">EDA 5:Pareto Analysis of Income Quintile Distribution</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pareto_data <span class="ot">&lt;-</span> data1 <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="st">`</span><span class="at">Income quintile group</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="st">`</span><span class="at">Income quintile group</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">%&gt;%</span>                 <span class="co"># sort from largest to smallest</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cumulative =</span> <span class="fu">cumsum</span>(n),</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">cumulative_pct =</span> cumulative <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pareto_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(<span class="st">`</span><span class="at">Income quintile group</span><span class="st">`</span>, <span class="sc">-</span>n))) <span class="sc">+</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">y =</span> n), <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> cumulative_pct <span class="sc">*</span> <span class="fu">max</span>(n) <span class="sc">/</span> <span class="dv">100</span>, <span class="at">group =</span> <span class="dv">1</span>),</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> cumulative_pct <span class="sc">*</span> <span class="fu">max</span>(n) <span class="sc">/</span> <span class="dv">100</span>),</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Frequency"</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>(<span class="sc">~</span> . <span class="sc">/</span> <span class="fu">max</span>(pareto_data<span class="sc">$</span>n) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">name =</span> <span class="st">"Cumulative Percentage"</span>)</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Pareto Chart of Income Quintile Group"</span>,</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Income Quintile Group"</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This Pareto chart presents the frequency distribution of respondents across income quintile groups, along with the cumulative percentage. The first two most frequent quintile groups (3 and 2) together account for a substantial portion of the population, as indicated by the steep rise in the cumulative percentage line.The cumulative percentage line shows that a small number of income groups account for the majority of the population, consistent with the Pareto principle.</p>
+</section>
+</section>
+<section id="summary-and-conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="summary-and-conclusion"><strong>Summary and Conclusion</strong></h2>
+<p>The analysis reveals that both total income and saving are highly right-skewed, with most individuals concentrated in the lower income and saving ranges and only a small number of high-value outliers.</p>
+<p>A positive relationship between income and saving is observed, indicating that individuals with higher income tend to save more, although considerable variability suggests other influencing factors. Income distributions across provinces show broadly similar patterns, with limited regional disparity. The Pareto analysis highlights that a few income quintile groups account for a substantial share of the population, reflecting structural concentration within certain income levels. Finally, the sex–income pyramid indicates a pronounced gender imbalance across income groups, with one gender significantly outnumbering the other, particularly in the lowest income bracket.</p>
+<p>Overall, the findings suggest generally low income levels and unequal distribution within the surveyed rural northern Vietnam region.</p>
+</section>
+<section id="reference" class="level2">
+<h2 class="anchored" data-anchor-id="reference"><strong>Reference</strong></h2>
+<p>datasource:https://www.sciencedirect.com/science/article/pii/S235234092100576X</p>
+<p>Pareto chart:https://en.wikipedia.org/wiki/Pareto_chart</p>
+<p>Age-sex and population pyramid:https://www.thoughtco.com/age-sex-pyramids-and-population-pyramids-1435272</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
