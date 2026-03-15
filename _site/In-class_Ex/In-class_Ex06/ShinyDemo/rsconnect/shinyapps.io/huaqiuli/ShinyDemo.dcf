@@ -1,0 +1,13 @@
+name: ShinyDemo
+title: ShinyDemo
+username: huaqiuli
+account: huaqiuli
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 16729714
+bundleId: 11610449
+url: https://huaqiuli.shinyapps.io/ShinyDemo/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData

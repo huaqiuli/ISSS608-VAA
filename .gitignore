@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.httr-oauth
+.DS_Store
+.quarto
+
+/.quarto/
+**/*.quarto_ipynb
+_site/Take-home_Ex/Take-home_Ex02/data/
+data/transactions_data.csv
+transactions_data.csv
+data/customer_data.csv
+customer_data.csv

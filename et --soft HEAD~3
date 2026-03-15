@@ -1,0 +1,47 @@
+[33m618c57c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m Remove large data files and republish
+ .../Take-home_Ex02/Take-home_Ex02.html             | 286 [32m++++++++++[m[31m-----------[m
+ .../Take-home_Ex/Take-home_Ex02/Take-home_Ex02.qmd |   2 [32m+[m[31m-[m
+ 2 files changed, 138 insertions(+), 150 deletions(-)
+[33m2caeaff[m Commit after adding take home exercise 2 to menu
+ _site/index.html | 4 [32m++++[m
+ 1 file changed, 4 insertions(+)
+[33mb2b33e9[m Commit after editing take home exercise 2
+ _quarto.yml                                        |       2 [32m+[m
+ .../Take-home_Ex02/Take-home_Ex02.html             |     794 [32m+[m
+ .../Take-home_Ex/Take-home_Ex02/Take-home_Ex02.qmd |     214 [32m+[m
+ .../figure-html/unnamed-chunk-10-1.png             |     Bin [31m0[m -> [32m33649[m bytes
+ .../figure-html/unnamed-chunk-6-1.png              |     Bin [31m0[m -> [32m15011[m bytes
+ .../figure-html/unnamed-chunk-6-2.png              |     Bin [31m0[m -> [32m16757[m bytes
+ .../figure-html/unnamed-chunk-8-1.png              |     Bin [31m0[m -> [32m127335[m bytes
+ ...tstrap-9e3ffae467580fdb927a41352e75a2e0.min.css |      12 [32m+[m
+ .../libs/bootstrap/bootstrap-icons.css             |    2106 [32m+[m
+ .../libs/bootstrap/bootstrap-icons.woff            |     Bin [31m0[m -> [32m180288[m bytes
+ .../libs/bootstrap/bootstrap.min.js                |       7 [32m+[m
+ .../libs/clipboard/clipboard.min.js                |       7 [32m+[m
+ .../libs/crosstalk-1.2.2/css/crosstalk.min.css     |       1 [32m+[m
+ .../libs/crosstalk-1.2.2/js/crosstalk.js           |    1474 [32m+[m
+ .../libs/crosstalk-1.2.2/js/crosstalk.js.map       |      37 [32m+[m
+ .../libs/crosstalk-1.2.2/js/crosstalk.min.js       |       2 [32m+[m
+ .../libs/crosstalk-1.2.2/js/crosstalk.min.js.map   |       1 [32m+[m
+ .../libs/crosstalk-1.2.2/scss/crosstalk.scss       |      75 [32m+[m
+ .../libs/datatables-binding-0.34.0/datatables.js   |    1539 [32m+[m
+ .../datatables-css-0.0.0/datatables-crosstalk.css  |      32 [32m+[m
+ .../dt-core-1.13.6/css/jquery.dataTables.extra.css |      28 [32m+[m
+ .../dt-core-1.13.6/css/jquery.dataTables.min.css   |       1 [32m+[m
+ .../dt-core-1.13.6/js/jquery.dataTables.min.js     |       4 [32m+[m
+ .../libs/htmltools-fill-0.5.9/fill.css             |      21 [32m+[m
+ .../libs/htmlwidgets-1.6.4/htmlwidgets.js          |     901 [32m+[m
+ .../libs/jquery-3.6.0/jquery-3.6.0.js              |   10881 [32m+[m
+ .../libs/jquery-3.6.0/jquery-3.6.0.min.js          |       2 [32m+[m
+ .../libs/jquery-3.6.0/jquery-3.6.0.min.map         |       1 [32m+[m
+ .../libs/quarto-html/anchor.min.js                 |       9 [32m+[m
+ .../libs/quarto-html/axe/axe-check.js              |     145 [32m+[m
+ .../libs/quarto-html/popper.min.js                 |       6 [32m+[m
+ ...ghlighting-7b89279ff1a6dce999919e0e67d4d9ec.css |     236 [32m+[m
+ .../libs/quarto-html/quarto.js                     |     847 [32m+[m
+ .../libs/quarto-html/tabsets/tabsets.js            |      95 [32m+[m
+ .../libs/quarto-html/tippy.css                     |       1 [32m+[m
+ .../libs/quarto-html/tippy.umd.min.js              |       2 [32m+[m
+ .../Take-home_Ex02/data/customer_data.csv          |   48724 [32m+[m
+ .../Take-home_Ex02/data/transactions_data.csv      | 3159158 [32m+++++++++++++++++[m
+ 38 files changed, 3227365 insertions(+)

@@ -1,0 +1,351 @@
+---
+title: "Take home exercise 01"
+author: "Li huaqiu"
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-title: "On this page"
+    toc-depth: 4
+---
+
+## **Topics: Investigating Income of informal labourers from Vietnam northern mountainous region rural area** {.unnumbered .unlisted}
+
+## **Overview**
+
+### Setting the scene:
+
+A survey captures the income levels of informal rural workers along with a range of socioeconomic and demographic characteristics that may influence their earnings. Data were collected across five northern Vietnamese provinces using a structured questionnaire, and after screening, 725 valid responses were retained for analysis. The dataset includes nominal, ordinal, and scale variables that reflect labourer attributes such as education, vocational training.
+
+### Our tasks:
+
+In this exercise, Exploratory Data Analysis (EDA) methods and ggplot functions are used to explore:
+
+1.  The income distribution across different genders in the region
+
+2.  A comparison of income levels among different provinces
+
+3.  The income distribution across different race groups
+
+4.  The relationship between income and savings
+
+5.  Differences among different income groups
+
+## **Get started**
+
+### Load packages:
+
+We load the following R packages using the `pacman::p_load()` function:
+
+-   **tidyverse**: Core collection of R packages designed for data science
+
+-   **ggrepel**: to provides geoms for **ggplot2** to repel overlapping text labels
+
+-   **ggthemes**: to use additional themes for **ggplot2**
+
+-   **patchwork**: to prepare composite figure created using **ggplot2**
+
+-   **ggridges**: to plot ridgeline plots
+
+-   **scales**: provides the internal scaling infrastructure used by **ggplot2**
+
+-   **ggdist**: a ggplot2 extension spacially desgin for visualising distribution and uncertainty
+
+-   **colorspace**: an R package provides a broad toolbox for selecting individual colors or color palettes, manipulating these colors, and employing them in various kinds of visualisations.
+
+```{r}
+pacman::p_load(tidyverse,ggdist,
+               ggrepel, ggthemes,
+               ggridges,patchwork,
+               scales,colorspace)
+```
+
+### Import data:
+
+```{r}
+library(readxl)
+data1 <- read_excel("data/Upload for elsiver.xlsx")
+data1
+```
+
+#### Filtering the data fo selected variables:
+
+we want to reduce the size of the dataset to focus on the variables that would be suitable for this exercise.
+
+```{r}
+data1 <- data1 %>%
+  select(CPRO, CGEN, CRAC, CQUI,
+         TEIN, TAIN, TSII, TOIN,
+         FEDU, LSAV, PPO1, PPO2)
+data1
+```
+
+#### Changing column names:
+
+The original dataset uses coded values to represent variables, which limits interpretability during analysis. Therefore, the codes were transformed into their corresponding descriptive variable labels to facilitate clearer analysis and interpretation.
+
+```{r}
+colnames(data1)[colnames(data1) == "CPRO"] <- "Provinces"
+colnames(data1)[colnames(data1) == "CGEN"] <- "Gender"
+colnames(data1)[colnames(data1) == "CRAC"] <- "Race"
+colnames(data1)[colnames(data1) == "CQUI"] <- "Income quintile group"
+colnames(data1)[colnames(data1) == "TEIN"] <- "Total income"
+colnames(data1)[colnames(data1) == "TAIN"] <- "Agricultural income"
+colnames(data1)[colnames(data1) == "TSII"] <- "Service and industrial income"
+colnames(data1)[colnames(data1) == "TOIN"] <- "Others"
+colnames(data1)[colnames(data1) == "FEDU"] <- "Education"
+colnames(data1)[colnames(data1) == "LSAV"] <- "Saving"
+colnames(data1)[colnames(data1) == "PPO1"] <- "Training Qualification"
+colnames(data1)[colnames(data1) == "PPO2"] <- "Supporting Chains for agricultural activities"
+
+data1
+```
+
+#### Check and handle missing value:
+
+Since income is the primary variable of interest in this study, observations with missing values in the income column were treated as invalid and excluded from the analysis. Upon inspection, only one record contained a missing value and was subsequently removed.
+
+```{r}
+data1 <- data1 %>%
+  filter(!is.na(`Total income`))
+data1
+```
+
+#### Check data type of each variable:
+
+Upon examination, the variables Provinces, Race, Income quintile group, Education, Training Qualification, and Supporting Chains for agricultural activities were identified as categorical variables that should be stored as text. However, they were originally recorded as numeric values. To avoid analytical errors arising from incorrect data types, these variables were converted to the appropriate data type prior to further analysis.
+
+```{r}
+str(data1)
+```
+
+```{r}
+data1$Provinces <- as.character(data1$Provinces)
+data1$Race <- as.character(data1$Race)
+data1$`Income quintile group` <- as.character(data1$`Income quintile group`)
+data1$Education <- as.character(data1$Education)
+data1$`Training Qualification` <- as.character(data1$`Training Qualification`)
+data1$`Supporting Chains for agricultural activities` <-
+  as.character(data1$`Supporting Chains for agricultural activities`)
+str(data1)
+```
+
+#### Check and remove outliers:
+
+Observations with missing values in the Saving variable were excluded, and the cleaned dataset was stored as data2 for further analysis of the correlation between total income and saving. After addressing missing values, the distribution of the data was examined, and influential outliers that could potentially distort the analytical results were removed prior to conducting the later analysis.
+
+```{r}
+data2 <- data1 %>%
+  filter(!is.na(Saving))
+data2
+```
+
+```{r}
+ggplot(data2, aes(y = Saving)) +
+  geom_boxplot(fill = "skyblue") +
+  labs(
+    title = "Boxplot of Saving",
+    y = "Saving Amount"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(data1, aes(y = `Total income`)) +
+  geom_boxplot(fill = "skyblue") +
+  labs(
+    title = "Total Income",
+    y = "Total Income Amount"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+data1 <- data1[data1$`Total income` != 560 &
+               data1$Saving != 5000, ]
+data2 <- data2[data2$`Total income` != 560 &
+               data2$Saving != 5000, ]
+```
+
+### EDA 1 Gender-Total_income Pyramid:
+
+```{r}
+pyr <- data1 %>%
+  filter(!is.na(Gender), !is.na(`Total income`)) %>%
+  mutate(
+    income_group = cut(
+      `Total income`,
+      breaks = c(0, 50, 100, 150, 200, 250, 300, Inf),   
+      labels = c("0-50","50-100","100-150","150-200","200-250","250-300","300+"),
+      include.lowest = TRUE
+    )
+  ) %>%
+  count(income_group, Gender) %>%
+  mutate(income_group = factor(income_group, levels = rev(levels(income_group))))
+```
+
+```{r}
+one_df   <- pyr %>% filter(Gender == "1")
+two_df <- pyr %>% filter(Gender == "2")
+
+p_one <- ggplot(one_df, aes(x = n, y = income_group)) +
+  geom_col() +
+  scale_x_reverse() +                         # mirror to the left
+  labs(x = NULL, y = NULL, title = "Gender_1") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.y = element_blank(),            # hide y labels on left panel
+    panel.grid.major.y = element_blank()
+  )
+
+p_two <- ggplot(two_df, aes(x = n, y = income_group)) +
+  geom_col() +
+  labs(x = NULL, y = NULL, title = "Gender_2") +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(),             # keep y labels in middle/right
+    panel.grid.major.y = element_blank()
+  )
+
+# Combine side-by-side with a main title
+(p_one | p_two) +
+  plot_annotation(title = "Sex–Income Pyramid")
+```
+The original dataset does not explicitly define the categories Gender_1 and Gender_2. Nevertheless, based on the observed graphical patterns and the socioeconomic context of the survey—conducted in rural areas of the northern mountainous region of Vietnam—it is reasonable to infer that Gender_1 likely corresponds to males and Gender_2 to females. A substantial proportion of respondents fall within the 0–50 income range, comprising more than half of the total sample. Furthermore, across all income groups, the male population appears to be approximately three times or more than the female population.
+
+### EDA 2:Distribution of Total Income Across Provinces
+
+```{r}
+ggplot(data1,
+       aes(x = `Total income`, 
+           y = Provinces, 
+           fill = 0.5 - abs(0.5-stat(ecdf)))) +
+  stat_density_ridges(geom = "density_ridges_gradient", 
+                      calc_ecdf = TRUE) +
+  scale_fill_viridis_c(name = "Tail probability",
+                       direction = -1) +
+  theme_ridges()
+```
+This ridgeline density plot illustrates the distribution of total income across different provinces.
+Across all provinces, income is heavily concentrated in the lower income range (approximately 0–80), indicating that most individuals earn relatively low incomes.The distributions are positively skewed, with a long right tail extending toward higher income levels. This suggests that a small number of individuals earn substantially higher incomes.
+Although slight variations exist, the general income distribution pattern appears relatively similar across provinces, implying limited regional disparity in income structure.
+
+### EDA 3:Comparison of Total Income Distribution by Race
+
+```{r}
+ggplot(data1, 
+       aes(x = Race, 
+           y = `Total income`)) +
+  stat_halfeye(adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(width = .20,
+               outlier.shape = NA) +
+  stat_dots(side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 1.5) +
+  coord_flip() +
+  theme_economist()
+```
+This plot combines density ridgelines with boxplots to compare the distribution of total income across racial groups.
+For both racial groups, income is heavily concentrated in the lower income range (roughly below 60–80), indicating that most individuals earn relatively modest incomes.The income distributions are positively skewed, with long right tails. This suggests the presence of a small number of high-income individuals in both groups.Overall, the income distribution patterns between the two racial groups appear broadly similar, with only minor variations in spread and upper-tail dispersion.
+
+### EDA 4:Income and Saving Patterns: Distribution and Relationship Analysis
+
+```{r}
+p1 <- ggplot(data=data2, 
+             aes(x = Saving)) +
+  geom_histogram(bins=20, 
+                 boundary = 500,
+                 color="grey25", 
+                 fill="grey90") + 
+  coord_cartesian(xlim=c(0,500)) +
+  ggtitle("Distribution of Saving")
+```
+
+```{r}
+p2 <- ggplot(data=data2, 
+             aes(x = `Total income`)) +
+  geom_histogram(bins=20, 
+                 boundary = 300,
+                 color="grey25", 
+                 fill="grey90") + 
+  coord_cartesian(xlim=c(0,300)) +
+  ggtitle("Distribution of total income")
+```
+
+```{r}
+p3 <- ggplot(data=data2, 
+             aes(x= Saving, 
+                 y=`Total income`)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+              size=0.5) +  
+  coord_cartesian(xlim=c(0,500),
+                  ylim=c(0,300)) +
+  ggtitle("Saving versus Total income")
+
+```
+
+```{r}
+((p1 / p2) | p3) + 
+  plot_annotation(tag_levels = 'I')
+```
+This figure presents three panels examining the distribution of saving, the distribution of total income, and the relationship between saving and total income.
+Both saving and total income exhibit strongly right-skewed distributions, suggesting that the majority of individuals fall within the lower income and savings ranges, while only a small proportion earn or save substantially higher amounts.
+The scatter plot with regression line shows a positive relationship between saving and total income.However, the points are widely dispersed, suggesting variability and that income does not fully determine saving behavior.
+
+### EDA 5:Pareto Analysis of Income Quintile Distribution
+
+```{r}
+pareto_data <- data1 %>%
+  filter(!is.na(`Income quintile group`)) %>%
+  count(`Income quintile group`) %>%
+  arrange(desc(n)) %>%                 # sort from largest to smallest
+  mutate(
+    cumulative = cumsum(n),
+    cumulative_pct = cumulative / sum(n) * 100
+  )
+```
+
+```{r}
+ggplot(pareto_data, aes(x = reorder(`Income quintile group`, -n))) +
+  geom_col(aes(y = n), fill = "steelblue") +
+  geom_line(aes(y = cumulative_pct * max(n) / 100, group = 1),
+            color = "red", size = 1) +
+  geom_point(aes(y = cumulative_pct * max(n) / 100),
+             color = "red", size = 2) +
+  scale_y_continuous(
+    name = "Frequency",
+    sec.axis = sec_axis(~ . / max(pareto_data$n) * 100,
+                        name = "Cumulative Percentage")
+  ) +
+  labs(
+    title = "Pareto Chart of Income Quintile Group",
+    x = "Income Quintile Group"
+  ) +
+  theme_minimal()
+```
+This Pareto chart presents the frequency distribution of respondents across income quintile groups, along with the cumulative percentage.
+The first two most frequent quintile groups (3 and 2) together account for a substantial portion of the population, as indicated by the steep rise in the cumulative percentage line.The cumulative percentage line shows that a small number of income groups account for the majority of the population, consistent with the Pareto principle.
+
+## **Summary and Conclusion**
+
+The analysis reveals that both total income and saving are highly right-skewed, with most individuals concentrated in the lower income and saving ranges and only a small number of high-value outliers. 
+
+A positive relationship between income and saving is observed, indicating that individuals with higher income tend to save more, although considerable variability suggests other influencing factors. Income distributions across provinces show broadly similar patterns, with limited regional disparity. The Pareto analysis highlights that a few income quintile groups account for a substantial share of the population, reflecting structural concentration within certain income levels. Finally, the sex–income pyramid indicates a pronounced gender imbalance across income groups, with one gender significantly outnumbering the other, particularly in the lowest income bracket. 
+
+Overall, the findings suggest generally low income levels and unequal distribution within the surveyed rural northern Vietnam region.
+
+## **Reference**
+datasource:https://www.sciencedirect.com/science/article/pii/S235234092100576X
+
+Pareto chart:https://en.wikipedia.org/wiki/Pareto_chart
+
+Age-sex and population pyramid:https://www.thoughtco.com/age-sex-pyramids-and-population-pyramids-1435272
+
+
