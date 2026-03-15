@@ -1,6 +1,12 @@
 ---
 title: "take home exercise 02"
 author: "li huaqiu"
+
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 3
 ---
 
 # Load Packages and Data
